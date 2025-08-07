@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 LigandScope - Ligand Check</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <h1>Ligand Check</h1>
+        <div class="subtitle">Ligand Properties and Visualization</div>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% else %}
+            <div class="sequence-box">
+                <strong>SMILES Sequence:</strong><br>{{ smiles if smiles else '--' }}
+            </div>
+
+            <!-- Accordion: Basic Properties -->
+            <div class="accordion">
+                <div class="accordion-header">Basic Properties</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Property</th><th>Value</th></tr>
+                        <tr><td>Molecular Formula</td><td>{{ props[0] if props[0] else 'N/A' }}</td></tr>
+                        <tr><td>Molecular Weight</td><td>{{ props[1] | round(2) if props[1] else 'N/A' }}</td></tr>
+                        <tr><td>Canonical SMILES</td><td>{{ props[2] if props[2] else 'N/A' }}</td></tr>
+                        <tr><td>InChIKey</td><td>{{ props[3] if props[3] else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accordion: Physicochemical Properties -->
+            <div class="accordion">
+                <div class="accordion-header">Physicochemical Properties</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Property</th><th>Value</th></tr>
+                        <tr><td>LogP</td><td>{{ props[4] | round(2) if props[4] else 'N/A' }}</td></tr>
+                        <tr><td>TPSA</td><td>{{ props[5] | round(2) if props[5] else 'N/A' }}</td></tr>
+                        <tr><td>H-Bond Donors</td><td>{{ props[6] if props[6] else 'N/A' }}</td></tr>
+                        <tr><td>H-Bond Acceptors</td><td>{{ props[7] if props[7] else 'N/A' }}</td></tr>
+                        <tr><td>Rotatable Bonds</td><td>{{ props[8] if props[8] else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accordion: Drug-Likeness Filters -->
+            <div class="accordion">
+                <div class="accordion-header">Drug-Likeness Filters</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Filter</th><th>Result</th></tr>
+                        <tr><td>Lipinski’s RO5</td><td>{{ '✓ Pass' if lipinski else '✗ Fail' }}</td></tr>
+                        <tr><td>Veber’s Rules</td><td>{{ '✓ Pass' if veber else '✗ Fail' }}</td></tr>
+                        <tr><td>PAINS</td><td>{{ '✓ Pass' if not pains else '✗ Fail' }}</td></tr>
+                        <tr><td>Brenk</td><td>{{ '✓ Pass' if not brenk else '✗ Fail' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accordion: Structural Info -->
+            <div class="accordion">
+                <div class="accordion-header">Structural Info</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Property</th><th>Value</th></tr>
+                        <tr><td>Ring Counts</td><td>{{ props[9] if props[9] else 'N/A' }}</td></tr>
+                        <tr><td>Aromaticity</td><td>{{ props[10] if props[10] else 'N/A' }}</td></tr>
+                    </table>
+                    <div style="margin-top: 15px;">
+                        <strong>2D Structure:</strong><br>
+                        <img src="data:image/png;base64,{{ ligand_image }}" alt="2D Structure" style="max-width: 200px; height: auto; border: 1px solid #ddd; border-radius: 5px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualization -->
+            <div class="accordion">
+                <div class="accordion-header">Visualization</div>
+                <div class="accordion-content">
+                    <div class="chart-container">
+                        <canvas id="propertyChart"></canvas>
+                    </div>
+                    <div id="2dStructure">2D Structure (SVG Placeholder)</div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion toggle
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    this.nextElementSibling.classList.toggle('active');
+                });
+            });
+
+            // Parse ligand props safely
+            let ligandProps = [];
+            try {
+                const rawProps = JSON.parse(`{{ props | tojson | safe }}`);
+                if (Array.isArray(rawProps)) {
+                    ligandProps = rawProps;
+                }
+            } catch (e) {
+                console.error("Failed to parse ligand props:", e);
+            }
+
+            // Draw chart
+            if (ligandProps.length > 0) {
+                const ctx = document.getElementById('propertyChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['MW', 'LogP', 'TPSA', 'H-Donors', 'H-Acceptors'],
+                        datasets: [{
+                            label: 'Properties',
+                            data: [
+                                ligandProps[1] || 0,
+                                ligandProps[4] || 0,
+                                ligandProps[5] || 0,
+                                ligandProps[6] || 0,
+                                ligandProps[7] || 0
+                            ],
+                            backgroundColor: '#9d94ff' // Updated to new color
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

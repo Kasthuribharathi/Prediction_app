@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 LigandScope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <h1>LigandScope</h1>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST" class="form-section">
+            <label for="smiles">Enter SMILES Sequence:</label>
+            <textarea id="smiles" name="smiles" placeholder="e.g., CCN(CC)CCNc1ccc2ncn3c4ccc(O)cc4c(=O)c1c23.Cl.Cl.O"></textarea>
+            <label for="protein">Enter Protein Sequence (FASTA without header):</label>
+            <textarea id="protein" name="protein" placeholder="e.g., MEICRGLRSHLITLLLFLFHSETICRPSGRKSSKMQAFRIWDVNQKTFYLRNNQLVAGYLQGPNVNLEEKIDVVPIEPHALFLGIHGGKMCLSCVKSGDETRLQLEAVNITDLSENRKQDKRFAFIRSDSGPTTSFESAACPGWFLCTAMEADQPVSLTNMPDEGVMVTKFYFQEDE"></textarea>
+            <button type="submit" class="btn">Predict</button>
+        </form>
+    </div>
+</body>
+</html>

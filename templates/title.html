@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 LigandScope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <div class="about-link" style="position: absolute; top: 10px; left: 10px;">
+            <a href="{{ url_for('about') }}">About</a>
+        </div>
+        <h1>LigandScope</h1>
+        <div class="subtitle">Predict Drug-Target Binding Affinity with Deep Learning</div>
+        <a href="{{ url_for('go') }}" class="btn">Go</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 LigandScope - Protein Display</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <h1>Protein Analysis</h1>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% else %}
+            <!-- Sequence -->
+            <div class="sequence-box">
+                <strong>Protein Sequence:</strong><br>{{ protein.sequence if protein.sequence else '--' }}
+            </div>
+
+            <!-- Accordion: Basic Properties -->
+            <div class="accordion">
+                <div class="accordion-header">Basic Properties</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Property</th><th>Value</th></tr>
+                        <tr><td>Sequence Length</td><td>{{ protein.length if protein.length else 'N/A' }}</td></tr>
+                        <tr><td>Molecular Weight</td><td>{{ protein.molecular_weight | round(2) if protein.molecular_weight else 'N/A' }}</td></tr>
+                        <tr><td>Isoelectric Point (pI)</td><td>{{ protein.isoelectric_point | round(2) if protein.isoelectric_point else 'N/A' }}</td></tr>
+                        <tr><td>Hydrophobicity (GRAVY)</td><td>{{ protein.gravy | round(2) if protein.gravy else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accordion: Physicochemical Properties -->
+            <div class="accordion">
+                <div class="accordion-header">Physicochemical Properties</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Property</th><th>Value</th></tr>
+                        <tr><td>Instability Index</td><td>{{ protein.instability_index | round(2) if protein.instability_index else 'N/A' }}</td></tr>
+                        <tr><td>Aliphatic Index</td><td>{{ protein.aliphatic_index | round(2) if protein.aliphatic_index else 'N/A' }}</td></tr>
+                        <tr><td>Charge Distribution (pH 7)</td><td>{{ protein.charge_dist | round(2) if protein.charge_dist else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Accordion: Functional Features -->
+            <div class="accordion">
+                <div class="accordion-header">Functional Features</div>
+                <div class="accordion-content">
+                    <table class="table">
+                        <tr><th>Feature</th><th>Value</th></tr>
+                        <tr><td>Signal Peptide</td><td>{{ protein.signal_peptide if protein.signal_peptide else 'N/A' }}</td></tr>
+                        <tr><td>Transmembrane Helices</td><td>{{ protein.tm_helices if protein.tm_helices else 'N/A' }}</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Visualizations -->
+            <div class="accordion">
+                <div class="accordion-header">Visualizations</div>
+                <div class="accordion-content">
+                    <div class="chart-container">
+                        <canvas id="aaCompositionChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="hydropathyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+
+    <!-- Pass data safely using data-* attributes -->
+    <div id="protein-data"
+         data-aa='{{ protein.aa_composition | tojson | safe if protein.aa_composition else "null" }}'
+         data-hydro='{{ protein.hydropathy_plot | tojson | safe if protein.hydropathy_plot else "null" }}'>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion toggle
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    this.nextElementSibling.classList.toggle('active');
+                });
+            });
+
+            // Parse data from data-* attributes
+            const dataDiv = document.getElementById('protein-data');
+            const aaComposition = JSON.parse(dataDiv.dataset.aa);
+            const hydropathyData = JSON.parse(dataDiv.dataset.hydro);
+
+            // Chart: Amino Acid Composition
+            if (aaComposition) {
+                const ctx = document.getElementById('aaCompositionChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(aaComposition),
+                        datasets: [{
+                            label: 'Amino Acid Composition',
+                            data: Object.values(aaComposition),
+                            backgroundColor: '#9d94ff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            // Chart: Hydropathy Plot
+            if (hydropathyData) {
+                const ctx2 = document.getElementById('hydropathyChart').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: hydropathyData.map((_, i) => i + 1),
+                        datasets: [{
+                            label: 'Hydropathy Score',
+                            data: hydropathyData,
+                            borderColor: '#ff9f43',
+                            backgroundColor: 'rgba(255, 159, 67, 0.2)',
+                            fill: true,
+                            tension: 0.2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

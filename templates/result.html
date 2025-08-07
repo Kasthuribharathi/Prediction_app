@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 LigandScope - Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <h1>Prediction Results</h1>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% else %}
+            <div class="sequence-box">
+                <strong>Protein Sequence:</strong><br>{{ protein if protein else '--' }}
+            </div>
+            <div class="sequence-box">
+                <strong>SMILES Sequence:</strong><br>{{ smiles if smiles else '--' }}
+            </div>
+            <div class="prediction-box">
+                <h2>Prediction Models</h2>
+                <div class="prediction-item"><strong>Weighted Affinity:</strong> {{ weighted_aff if weighted_aff else '--' }}</div>
+                <div class="prediction-item"><strong>Combined KIBA:</strong> {{ combined_aff if combined_aff else '--' }}</div>
+                <div class="prediction-item"><strong>Single Protein:</strong> {{ single_aff if single_aff else '--' }}</div>
+            </div>
+            <div class="form-section">
+                <a href="{{ url_for('ligand_check', smiles=smiles|urlencode) }}" class="btn">Ligand Check</a>
+                <a href="{{ url_for('protein_analysis', protein=protein|urlencode) }}" class="btn">Protein Analysis</a>
+                <a href="{{ url_for('index') }}" class="btn">New Prediction</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
