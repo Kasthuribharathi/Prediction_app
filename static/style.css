@@ -1,0 +1,226 @@
+/* LigandScope Styles */
+body {
+    background: url('/static/img/protein_bg.png') no-repeat center center;
+    background-color: #2860a1;
+    background-size: cover;
+    background-blend-mode: overlay;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+body.dark-theme {
+    background-color: #2860a1;
+}
+
+.container {
+    background-color: rgba(26, 43, 60, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+h1 {
+    color: #2860a1;
+    margin-bottom: 15px;
+    font-size: 2.5em;
+}
+
+.subtitle {
+    color: #7ba0c8;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.form-section {
+    margin: 20px 0;
+    text-align: left;
+}
+
+label {
+    display: block;
+    color: #7ba0c8;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a2b3c;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn {
+    background-color: #2860a1;
+    color: #ffffff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #7ba0c8;
+}
+
+.error {
+    color: #ff3333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.about-link {
+    color: #7ba0c8;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.about-link a {
+    color: #7ba0c8;
+    text-decoration: none;
+}
+
+.about-link a:hover {
+    text-decoration: underline;
+}
+
+.sequence-box {
+    background-color: #1a2b3c;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: left;
+    word-wrap: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.prediction-box {
+    background-color: #1a2b3c;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.prediction-box h2 {
+    color: #2860a1;
+    margin-bottom: 10px;
+}
+
+.prediction-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: rgba(40, 96, 161, 0.8);
+    border-radius: 5px;
+    color: #7ba0c8;
+}
+
+.accordion {
+    margin-bottom: 15px;
+    border: 1px solid #1a2b3c;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background-color: #1a2b3c;
+    padding: 12px;
+    cursor: pointer;
+    color: #7ba0c8;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.accordion-header:hover {
+    background-color: #2860a1;
+}
+
+.accordion-content {
+    display: none;
+    padding: 15px;
+    background-color: rgba(40, 96, 161, 0.2);
+    border-top: 1px solid #1a2b3c;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #1a2b3c;
+    color: #7ba0c8;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #2860a1;
+}
+
+.table td {
+    background-color: rgba(40, 96, 161, 0.1);
+    padding: 10px;
+    color: #ffffff;
+    border-bottom: 1px solid #1a2b3c;
+}
+
+.status-pass {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.status-fail {
+    color: #ff3333;
+    font-weight: bold;
+}
+
+.chart-container {
+    margin: 20px 0;
+    max-width: 100%;
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    .subtitle {
+        font-size: 1em;
+    }
+    textarea {
+        font-size: 14px;
+    }
+    .btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}

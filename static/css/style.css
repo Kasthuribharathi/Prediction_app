@@ -1,0 +1,200 @@
+/* LigandScope Styles */
+body {
+    background: url('https://via.placeholder.com/1920x1080.png?text=Protein+Background') no-repeat center center;
+    background-color: #1a2b3c;
+    background-size: cover;
+    background-blend-mode: overlay;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+body.dark-theme {
+    background-color: #1a2b3c;
+}
+
+.container {
+    background-color: rgba(26, 43, 60, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    margin-top: 0;
+}
+
+h1 {
+    color: #16c2d5;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: #89dee2;
+    margin-bottom: 20px;
+}
+
+.form-section {
+    margin: 15px 0;
+    text-align: left;
+}
+
+label {
+    display: block;
+    color: #89dee2;
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #2a4055;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 16px;
+    resize: vertical;
+}
+
+textarea {
+    height: 100px;
+}
+
+.btn {
+    background-color: #16c2d5;
+    color: #1a2b3c;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #89dee2;
+}
+
+.error {
+    color: #ff3333;
+    margin-bottom: 10px;
+}
+
+.about-link {
+    margin-top: 20px;
+    color: #89dee2;
+}
+
+.about-link a {
+    color: #89dee2;
+    text-decoration: none;
+}
+
+.about-link a:hover {
+    text-decoration: underline;
+}
+
+pre {
+    background-color: #2a4055;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+.accordion {
+    margin-bottom: 10px;
+    border: 1px solid #2a4055;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background-color: #2a4055;
+    padding: 12px;
+    cursor: pointer;
+    color: #89dee2;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.accordion-header:hover {
+    background-color: #34495e;
+}
+
+.accordion-content {
+    display: none;
+    padding: 15px;
+    background-color: rgba(22, 194, 213, 0.2);
+    border-top: 1px solid #2a4055;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #2a4055;
+    color: #89dee2;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #16c2d5;
+}
+
+.table td {
+    background-color: rgba(22, 194, 213, 0.2);
+    padding: 10px;
+    color: #ffffff;
+    border-bottom: 1px solid #2a4055;
+}
+
+.status-pass {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.status-fail {
+    color: #ff3333;
+    font-weight: bold;
+}
+
+.chart-container {
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.sequence-box {
+    background-color: #2a4055;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    input, textarea {
+        font-size: 14px;
+    }
+    .btn {
+        font-size: 14px;
+    }
+}
