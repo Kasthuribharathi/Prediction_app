@@ -15,7 +15,7 @@
             <div class="error">{{ error }}</div>
         {% else %}
             <!-- Sequence -->
-            <div class="sequence-box">
+          <div class="sequence-box">
                 <strong>Protein Sequence:</strong><br>{{ protein.sequence if protein.sequence else '--' }}
             </div>
 
@@ -73,6 +73,11 @@
 
         {% endif %}
     </div>
+           
+
+
+    
+
 
     <!-- Pass data safely using data-* attributes -->
     <div id="protein-data"
@@ -89,31 +94,50 @@
                 });
             });
 
+            const aaNames = {
+            A: "Alanine", R: "Arginine", N: "Asparagine", D: "Aspartic acid",
+            C: "Cysteine", E: "Glutamic acid", Q: "Glutamine", G: "Glycine",
+            H: "Histidine", I: "Isoleucine", L: "Leucine", K: "Lysine",
+            M: "Methionine", F: "Phenylalanine", P: "Proline", S: "Serine",
+            T: "Threonine", W: "Tryptophan", Y: "Tyrosine", V: "Valine"
+        };
+
             // Parse data from data-* attributes
             const dataDiv = document.getElementById('protein-data');
             const aaComposition = JSON.parse(dataDiv.dataset.aa);
             const hydropathyData = JSON.parse(dataDiv.dataset.hydro);
 
-            // Chart: Amino Acid Composition
-            if (aaComposition) {
-                const ctx = document.getElementById('aaCompositionChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: Object.keys(aaComposition),
-                        datasets: [{
-                            label: 'Amino Acid Composition',
-                            data: Object.values(aaComposition),
-                            backgroundColor: '#9d94ff'
-                        }]
+         // Chart: Amino Acid Composition
+        if (aaComposition) {
+            const ctx = document.getElementById('aaCompositionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(aaComposition),
+                    datasets: [{
+                        label: 'Amino Acid Composition',
+                        data: Object.values(aaComposition),
+                        backgroundColor: '#9d94ff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    let code = context[0].label;
+                                    return aaNames[code] || code;
+                                }
+                            }
+                        }
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: { y: { beginAtZero: true } }
-                    }
-                });
-            }
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
 
             // Chart: Hydropathy Plot
             if (hydropathyData) {
